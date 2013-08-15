@@ -82,7 +82,9 @@ class drawers.TouchInput extends BaseInput
 
   constructor: ->
     super
-
+    $(window).mousedown @startDrawing
+    $(window).mousemove @cursorMove
+    $(window).mouseup @stopDrawing
 
   events:
     "touchstart": "down"
@@ -110,3 +112,35 @@ class drawers.TouchInput extends BaseInput
     x: e.pageX - @el.offsetLeft
     y: e.pageY - @el.offsetTop
 
+  startDrawing: (e) =>
+
+    return if e.target isnt @el
+    @down = true
+
+    @tool.begin()
+    @tool.down @lastPoint = @getCoordsMouse e
+
+    false
+
+
+
+  cursorMove: (e) =>
+    return if not @down
+
+
+    @tool.move @lastPoint = @getCoordsMouse e
+
+
+  stopDrawing: (e) =>
+    return if not @down
+    e.preventDefault()
+    @down = false
+
+    @tool.up @lastPoint
+    @tool.end()
+
+
+
+  getCoordsMouse: (e) ->
+    x: e.pageX - @el.offsetLeft
+    y: e.pageY - @el.offsetTop

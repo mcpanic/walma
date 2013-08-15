@@ -19,6 +19,9 @@ socket = io.connect().of("/drawer")
 
 # http://modernizr.github.com/Modernizr/touch.html
 hasTouch = 'ontouchstart' of window
+# juho: force to false to force pen interaction on Windows Surface
+# Windows Surface pen input is treated as mouse events not touch events
+# hasTouch = false
 # For old firefox mobile
 if not hasTouch and typeof DocumentTouch isnt "undefined"
   hasTouch = document instanceof DocumentTouch
