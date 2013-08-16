@@ -29,7 +29,9 @@ $ ->
 
 # Smoother navigation for touch devices
 # Just use tap event instead of click
-$.support.touch = 'ontouchstart' of window
+# Juho: force no touch support
+# $.support.touch = 'ontouchstart' of window
+$.support.touch = false 
 $ ->
   if $.support.touch
     $('body').bind 'touchstart', (e) ->
