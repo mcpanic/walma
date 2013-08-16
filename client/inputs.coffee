@@ -42,6 +42,16 @@ class drawers.MouseInput extends BaseInput
     $(window).mousedown @startDrawing
     $(window).mousemove @cursorMove
     $(window).mouseup @stopDrawing
+    # juho: mouseup from outside relayed to the iframe
+    #$(window).on "message", @receiveMessage
+    window.addEventListener "message", @receiveMessage, false
+
+
+  receiveMessage: (event) =>
+    console.log event.source, event.data
+    @source = event.source
+    @stopDrawing event if event.data is "mouseup"
+  
 
   startDrawing: (e) =>
 
@@ -63,6 +73,7 @@ class drawers.MouseInput extends BaseInput
 
 
   stopDrawing: (e) =>
+    console.log "mouseup", @down
     return if not @down
     e.preventDefault()
     @down = false
