@@ -111,6 +111,7 @@ class BaseTool
     tool: @name
     size: @getSize()
     moves: @moves
+    tm: new Date().getTime()
 
 class exports.Pencil extends BaseTool
 
@@ -132,6 +133,7 @@ class exports.Pencil extends BaseTool
     # Start drawing
     point = _.clone point
     point.op = "down"
+    point.tm = new Date().getTime()
 
 
     @moves.push point
@@ -152,6 +154,7 @@ class exports.Pencil extends BaseTool
   move: (to) ->
     to = _.clone to
     to.op = "move"
+    to.tm = new Date().getTime()
 
     @moves.push to
 
@@ -176,6 +179,7 @@ class exports.Eraser extends BaseTool
   eraseDot: (point) ->
     point = _.clone point
     point.op = "move"
+    point.tm = new Date().getTime()
 
     # Set compositing back to destination-out if some remote user changes it.
     if @main.globalCompositeOperation isnt "destination-out"
@@ -219,6 +223,7 @@ class exports.Line extends BaseTool
     if @lastPoint is null
       point = _.clone point
       point.op = "down"
+      point.tm = new Date().getTime()
       @moves.push @startPoint = point
       @lastPoint = point
 
@@ -232,6 +237,7 @@ class exports.Line extends BaseTool
 
     to = _.clone to
     to.op = "move"
+    to.tm = new Date().getTime()
     @lastPoint = to
 
   up:   ->
